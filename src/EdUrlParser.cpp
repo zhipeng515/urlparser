@@ -214,7 +214,7 @@ size_t EdUrlParser::parseKeyValue(string rawstr, __kv_callback kvcb, void* obj, 
 
 	int _url_errorno = 0;
 	const char *str = rawstr.c_str();
-	size_t pos, len, item_len;
+	size_t pos, len, item_len = 0;
 	pos = 0;
 	len = rawstr.size();
 
@@ -223,7 +223,6 @@ size_t EdUrlParser::parseKeyValue(string rawstr, __kv_callback kvcb, void* obj, 
 	WALK_SP(pos, len, str);
 	CHECK_LEN_END(pos, len);
 	key_pos = pos;
-	item_len = 0;
 	for(;;) {
 		WALK_UNTIL2(pos, len, str, '=', '&');
 		if(pos >= len || str[pos] == '&') {
@@ -255,7 +254,7 @@ size_t EdUrlParser::parseKeyValue(string rawstr, __kv_callback kvcb, void* obj, 
 	}
 	__PARSE_END:
 	if(_url_errorno != 0 )
-		return -1;
+		return (size_t)-1;
 	return item_len;
 }
 
